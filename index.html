@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Leadership Delta™ — AI leadership, built not lectured</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#15130f; --ink2:#4a473f; --ink3:#86827a;
+  --paper:#fbfaf7; --paper2:#f2efe9; --line:#e6e2d9; --line2:#d8d3c7;
+  --p:#5648d6; --p-soft:#ece9fc; --p-deep:#2f2880;
+  --coral:#e0533c; --coral-soft:#fbe9e4;
+  --dark:#141019; --dark2:#1d1726;
+  --ok:#1f7a5c;
+  --r:16px; --r-lg:24px;
+  --maxw:1080px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+.serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+a{color:inherit}
+h1,h2,h3{line-height:1.08;letter-spacing:-0.02em;font-weight:600}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--p)}
+.muted{color:var(--ink2)}
+section{padding:96px 0}
+@media(max-width:640px){section{padding:64px 0}}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(1.2) blur(8px);background:rgba(251,250,247,.7);border-bottom:1px solid transparent;transition:.3s}
+.nav.scrolled{background:rgba(251,250,247,.9);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:600;letter-spacing:-.01em}
+.brand .tri{width:13px;height:13px;background:var(--p);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;color:var(--ink2);text-decoration:none;transition:.2s}
+.nav-links a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;padding:11px 20px;border-radius:100px;border:1px solid transparent;cursor:pointer;text-decoration:none;transition:.2s}
+.btn-p{background:var(--p);color:#fff}
+.btn-p:hover{background:var(--p-deep);transform:translateY(-1px)}
+.btn-ghost{background:transparent;border-color:var(--line2);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink);background:#fff}
+.btn-light{background:#fff;color:var(--ink)}
+.btn-light:hover{transform:translateY(-1px)}
+@media(max-width:760px){.nav-links a:not(.btn){display:none}}
+
+/* HERO */
+.hero{background:radial-gradient(120% 120% at 80% -10%,#3a2f6e 0%,var(--dark2) 45%,var(--dark) 100%);color:#fff;position:relative;overflow:hidden;padding:120px 0 110px}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(40% 60% at 15% 110%,rgba(86,72,214,.35),transparent 70%);pointer-events:none}
+.hero .eyebrow{color:#b9b1f2}
+.hero h1{font-size:clamp(38px,6vw,66px);margin:18px 0 22px;max-width:16ch}
+.hero h1 em{font-style:normal;color:#c8c0ff}
+.hero p.lead{font-size:clamp(17px,2.2vw,21px);color:#cfcadd;max-width:54ch;margin-bottom:34px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero-strip{display:flex;gap:34px;margin-top:56px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.12);padding-top:26px}
+.hero-strip .s{min-width:120px}
+.hero-strip .n{font-size:30px;font-weight:600;letter-spacing:-.02em}
+.hero-strip .l{font-size:12.5px;color:#a8a2bd;line-height:1.4}
+
+/* SECTION HEADERS */
+.shead{max-width:62ch;margin-bottom:48px}
+.shead h2{font-size:clamp(28px,4vw,42px);margin:14px 0 0}
+
+/* QUIZ */
+.quiz-sec{background:var(--ink);color:#fff}
+.quiz-sec .eyebrow{color:var(--coral)}
+.quiz-sec h2{color:#fff}
+.quiz-sec .muted{color:#b6b1c2}
+.quiz{display:grid;gap:18px;margin-top:14px}
+.q{background:#211b2c;border:1px solid #322a42;border-radius:var(--r);padding:24px}
+.q .qq{font-size:18px;font-weight:600;margin-bottom:16px}
+.opts{display:flex;gap:10px;flex-wrap:wrap}
+.opt{flex:1;min-width:90px;text-align:center;padding:13px 8px;border-radius:11px;border:1px solid #3a3250;background:#1a1524;color:#d8d4e2;font-weight:600;cursor:pointer;transition:.18s;font-size:15px}
+.opt:hover{border-color:var(--p);background:#241d33}
+.opt.wrong{border-color:#5a2f33;background:#2a1a1f;color:#e69a9a}
+.opt.right{border-color:var(--ok);background:#163029;color:#7fe3c0}
+.reveal{margin-top:16px;font-size:15px;color:#cfcadd;border-left:2px solid var(--coral);padding-left:14px;display:none}
+.reveal.show{display:block;animation:fade .5s ease}
+.reveal b{color:#fff}
+.reveal .src{display:block;font-size:12px;color:#857f97;margin-top:6px}
+.opt.selected{border-color:var(--p);background:#241d33;color:#fff}
+.quiz-result{display:none;margin-top:22px;background:#211b2c;border:1px solid #322a42;border-left:3px solid var(--coral);border-radius:var(--r);padding:26px}
+.quiz-result.show{display:block;animation:fade .5s ease}
+.quiz-result p{font-size:16.5px;line-height:1.6;color:#e7e3ef;margin:0}
+.quiz-result b{color:#fff}
+.quiz-result em{font-style:italic;color:var(--coral)}
+.quiz-result .rsrc{color:#857f97;font-size:13px}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.quiz-punch{margin-top:30px;font-size:clamp(20px,3vw,28px);font-weight:600;letter-spacing:-.02em;max-width:24ch}
+.quiz-punch .serif{color:var(--coral)}
+
+/* CARDS / GAP */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:900px){.grid4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.grid4{grid-template-columns:1fr}}
+.gcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;transition:.2s}
+.gcard:hover{transform:translateY(-3px);box-shadow:0 12px 30px -18px rgba(20,16,25,.4);border-color:var(--line2)}
+.gcard .k{font-size:12px;font-weight:700;color:var(--p);letter-spacing:.04em}
+.gcard h3{font-size:19px;margin:12px 0 8px}
+.gcard p{font-size:14.5px;color:var(--ink2)}
+
+/* OFFER */
+.offer{background:var(--p-soft)}
+.get-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.get{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;position:relative;overflow:hidden;transition:.22s cubic-bezier(.2,.7,.2,1)}
+.get::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p);transform:scaleY(0);transform-origin:top;transition:.28s cubic-bezier(.2,.7,.2,1)}
+.get:hover{transform:translateY(-4px);box-shadow:0 18px 40px -24px rgba(47,40,128,.55);border-color:var(--line2)}
+.get:hover::before{transform:scaleY(1)}
+.get-h{font-size:17px;font-weight:600;letter-spacing:-.01em;margin-bottom:8px;color:var(--ink);display:flex;align-items:center;gap:9px}
+.get-h .gk{flex:none;width:22px;height:22px;border-radius:6px;background:var(--p-soft);color:var(--p-deep);display:grid;place-items:center;font-size:12px;font-weight:700}
+.get p{font-size:14.5px;color:var(--ink2);margin:0;line-height:1.5}
+
+/* CONCEPTS */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.chip{font-size:14px;font-weight:500;padding:9px 15px;border-radius:100px;background:#fff;border:1px solid var(--line2);color:var(--ink);transition:.2s;cursor:default}
+.chip:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* STRUCTURE / TABS */
+.tabs{display:flex;gap:8px;margin-bottom:30px;flex-wrap:wrap}
+.tab{padding:12px 20px;border-radius:100px;border:1px solid var(--line2);background:#fff;font-weight:600;font-size:14.5px;cursor:pointer;transition:.2s;color:var(--ink2)}
+.tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.panel{display:none;animation:fade .45s ease}
+.panel.active{display:block}
+.flow{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin-top:8px}
+.node{flex:1;min-width:0;border-radius:14px;padding:16px 14px;cursor:pointer;transition:.2s;border:1px solid var(--line);background:#fff}
+.node:hover{transform:translateY(-2px);box-shadow:0 10px 24px -16px rgba(20,16,25,.45)}
+.node.build{background:var(--ink);color:#fff;border-color:var(--ink);flex:1.1}
+.node .nt{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.7}
+.node .nm{font-size:14px;font-weight:600;margin-top:6px;line-height:1.25}
+.node.build .nt{color:#b9b1f2;opacity:1}
+.flow-note{margin-top:18px;font-size:14px;color:var(--ink2)}
+.struct-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:32px}
+.struct-card h3{font-size:24px;margin-bottom:6px}
+.struct-meta{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0 18px}
+.struct-meta span{font-size:13px;font-weight:600;color:var(--p);background:var(--p-soft);padding:6px 12px;border-radius:8px}
+.timeline{display:none;margin-top:8px;border-top:1px solid var(--line)}
+.timeline.open{display:block;animation:fade .4s ease}
+.tl-row{display:grid;grid-template-columns:78px 1fr;gap:18px;padding:20px 0;border-bottom:1px solid var(--line)}
+.tl-row:last-child{border-bottom:none}
+.tl-wk{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink3);text-transform:uppercase}
+.tl-wk .num{display:block;font-family:'Instrument Serif',serif;font-size:36px;color:var(--p);letter-spacing:0;text-transform:none;line-height:.9;margin-top:2px}
+.tl-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:6px;margin-bottom:9px}
+.tl-tag.build{background:var(--ink);color:#fff}
+.tl-tag.mod{background:var(--p-soft);color:var(--p-deep)}
+.tl-row h4{font-size:18px;margin:0 0 6px;letter-spacing:-.01em;font-weight:600}
+.tl-row p{font-size:14.5px;color:var(--ink2);margin:0}
+
+/* SELF-ASSESSMENT */
+.sa-q{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px;margin-bottom:14px}
+.sa-q .qq{font-weight:600;font-size:16.5px;margin-bottom:14px;letter-spacing:-.01em}
+.sa-q .qq b{color:var(--p);font-weight:700}
+.sa-opts{display:grid;gap:8px}
+.sa-opt{text-align:left;padding:13px 16px;border:1px solid var(--line2);border-radius:11px;background:var(--paper);cursor:pointer;font-size:14.5px;color:var(--ink2);transition:.15s;font-family:inherit;line-height:1.45}
+.sa-opt:hover{border-color:var(--p);background:#fff;color:var(--ink)}
+.sa-opt.sel{border-color:var(--p);background:var(--p-soft);color:var(--ink);font-weight:500}
+.sa-opt.right{border-color:var(--ok);background:#e7f5ef;color:#0f5c43;font-weight:500}
+.sa-opt.wrong{border-color:#e3b3a8;background:var(--coral-soft);color:#7a2f1c;font-weight:500}
+.sa-insight{display:none;margin-top:12px;font-size:13.5px;line-height:1.55;color:var(--ink2);border-left:2px solid var(--p);padding:10px 0 10px 14px}
+.sa-insight.show{display:block;animation:fade .4s ease}
+.sa-insight b{color:var(--ink)}
+.sa-progress{margin-top:22px;font-size:12px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em}
+.sa-result{display:none;margin-top:24px;background:var(--ink);color:#fff;border-radius:var(--r-lg);padding:36px;text-align:center}
+.sa-result.show{display:block;animation:fade .5s ease}
+.sa-band{font-family:'Instrument Serif',serif;font-size:40px;color:#c8c0ff;line-height:1}
+.sa-score{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#857f97;margin:10px 0 16px}
+.sa-result p{font-size:16.5px;color:#cfcadd;max-width:50ch;margin:0 auto 24px}
+.cohort-bar{background:var(--p-soft);border-bottom:1px solid var(--line2)}
+.cohort-in{display:flex;align-items:center;justify-content:center;gap:18px;padding:14px 24px;flex-wrap:wrap}
+.cohort-in span{font-size:14.5px;color:var(--p-deep)}
+.cohort-in .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--p);margin-right:8px;vertical-align:middle;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* PRICING */
+.pricing{background:var(--paper2)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:860px){.pgrid{grid-template-columns:1fr}}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:30px;position:relative;display:flex;flex-direction:column}
+.pcard.feat{border:2px solid var(--p);box-shadow:0 20px 50px -30px rgba(86,72,214,.6)}
+.pcard .badge{position:absolute;top:-12px;left:30px;background:var(--p);color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:8px;letter-spacing:.04em}
+.pcard .pt{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3)}
+.pcard h3{font-size:23px;margin:8px 0 4px}
+.pcard .price{font-size:15px;color:var(--p);font-weight:600;margin:10px 0 18px}
+.pcard ul{list-style:none;display:grid;gap:10px;font-size:14.5px;color:var(--ink2);margin-bottom:24px}
+.pcard li{display:flex;gap:9px}.pcard li::before{content:"—";color:var(--p)}
+.pcard .btn{margin-top:auto;justify-content:center}
+.pnote{text-align:center;margin-top:24px;font-size:14.5px;color:var(--ink2)}
+
+/* PAUL */
+.paul{display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:center}
+@media(max-width:680px){.paul{grid-template-columns:1fr;gap:24px}}
+.paul .pic{aspect-ratio:1;border-radius:20px;background:linear-gradient(160deg,#3a2f6e,var(--dark));display:grid;place-items:center;color:#b9b1f2;font-family:'Instrument Serif',serif;font-size:54px}
+.paul h2{font-size:clamp(26px,3.5vw,36px);margin-bottom:14px}
+.paul p{font-size:16px;color:var(--ink2);max-width:60ch}
+
+/* CLOSE */
+.close{background:radial-gradient(120% 130% at 50% 0%,#3a2f6e,var(--dark) 60%);color:#fff;text-align:center}
+.close h2{font-size:clamp(30px,5vw,50px);max-width:18ch;margin:0 auto 26px}
+.close .hero-cta{justify-content:center}
+
+footer{background:var(--dark);color:#9a93ab;padding:42px 0;font-size:13.5px}
+.foot-in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+.foot-in a{color:#cfcadd;text-decoration:none}
+
+.reveal-on{opacity:0;transform:translateY(20px);transition:.7s cubic-bezier(.2,.7,.2,1)}
+.reveal-on.in{opacity:1;transform:none}
+
+.betaflag{position:fixed;bottom:16px;left:16px;z-index:60;background:var(--coral);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:7px 12px;border-radius:8px;box-shadow:0 8px 20px -8px rgba(224,83,60,.7)}
+
+/* QUOTES MODAL */
+.modal{position:fixed;inset:0;z-index:100;display:none}
+.modal.open{display:block}
+.modal-bg{position:absolute;inset:0;background:rgba(15,12,20,.62);backdrop-filter:blur(4px)}
+.modal-panel{position:absolute;top:0;right:0;height:100%;width:min(580px,94vw);background:var(--paper);box-shadow:-24px 0 70px -30px rgba(0,0,0,.65);overflow-y:auto;animation:slidein .38s cubic-bezier(.2,.7,.2,1)}
+@keyframes slidein{from{transform:translateX(40px);opacity:.4}to{transform:none;opacity:1}}
+.modal-in{padding:62px 42px 60px}
+.modal-x{position:absolute;top:18px;right:20px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:#fff;font-size:20px;cursor:pointer;color:var(--ink2);line-height:1;z-index:2}
+.modal-x:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.quote{margin:0 0 22px;padding:26px;background:#fff;border:1px solid var(--line);border-radius:var(--r);border-left:3px solid var(--p)}
+.quote blockquote{font-family:'Instrument Serif',serif;font-size:23px;line-height:1.32;letter-spacing:-.01em;color:var(--ink)}
+.quote blockquote em{font-style:italic;color:var(--p)}
+.quote figcaption{margin-top:14px;font-size:13px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.03em}
+</style>
+</head>
+<body>
+
+<div class="betaflag">BETA MOCKUP · v0.1 · copy &amp; stats to verify</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-in">
+    <div class="brand"><span class="tri"></span> Leadership&nbsp;Delta™</div>
+    <div class="nav-links">
+      <a href="#truth">The Gap</a>
+      <a href="#method">The Method</a>
+      <a href="#program">The Programme</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#enquire" class="btn btn-p">Enquire</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">A Paul Gibbons Advisory programme · Adaptive Adoption™</div>
+    <h1>What is <em>really</em> different about leading AI — and why does every other programme leave it untouched?</h1>
+    <p class="lead">Leadership Delta is the answer to that question. You can't lead AI by talking about it — so we hand leaders back 5–10 hours a week, then build the judgement to lead AI strategy, change and governance.</p>
+    <div class="hero-cta">
+      <a href="#assessment" class="btn btn-light">Take the self-assessment ↓</a>
+      <button class="btn btn-ghost js-quotes" style="color:#fff;border-color:rgba(255,255,255,.3)">What CEOs say →</button>
+    </div>
+  </div>
+</header>
+
+<!-- COHORT BAR -->
+<div class="cohort-bar">
+  <div class="wrap cohort-in">
+    <span><span class="dot"></span><strong>The next public programme begins 7 September 2026.</strong> Limited places.</span>
+    <a href="#enquire" class="btn btn-p" style="padding:9px 18px;font-size:13.5px">Register your interest →</a>
+  </div>
+</div>
+
+<!-- A · THE FRIGHTENING TRUTH (interactive quiz) -->
+<section class="quiz-sec" id="truth">
+  <div class="wrap">
+    <div class="shead">
+      <div class="eyebrow">The frightening truth</div>
+      <h2 class="serif" style="font-size:clamp(30px,4.5vw,46px)">Most executives guess these four numbers badly wrong.</h2>
+      <p class="muted" style="margin-top:14px">Pick your answer. The real figures are the reason this programme exists.</p>
+    </div>
+    <div class="quiz">
+      <div class="q" data-answer="2">
+        <div class="qq">1. What share of companies capture <em>substantial</em> value from AI at scale?</div>
+        <div class="opts">
+          <div class="opt">50%</div><div class="opt">25%</div><div class="opt">5%</div>
+        </div>
+      </div>
+      <div class="q" data-answer="0">
+        <div class="qq">2. What share of executives are rated AI-proficient <em>by their own peers</em>?</div>
+        <div class="opts">
+          <div class="opt">26%</div><div class="opt">55%</div><div class="opt">80%</div>
+        </div>
+      </div>
+      <div class="q" data-answer="2">
+        <div class="qq">3. What is the single biggest predictor of whether a team adopts AI?</div>
+        <div class="opts">
+          <div class="opt">The AI budget</div><div class="opt">Which tools they buy</div><div class="opt">How well the leader uses AI</div>
+        </div>
+      </div>
+      <div class="q" data-answer="0">
+        <div class="qq">4. About what percentage of executive training actually transfers to the job?</div>
+        <div class="opts">
+          <div class="opt">20%</div><div class="opt">40%</div><div class="opt">60%</div>
+        </div>
+      </div>
+    </div>
+    <div class="quiz-result" id="quizResult">
+      <p>You're in good company if you missed these. Only about <b>5%</b> of companies capture substantial value from AI at scale — the bottleneck is leadership, not technology <span class="rsrc">(BCG, 2025)</span>. Just <b>26%</b> of executives are rated AI-proficient by their own peers <span class="rsrc">(Gartner, 2025)</span>, and the single biggest predictor of whether a team adopts AI is <b>how well its leader personally uses it</b> <span class="rsrc">(Nufar Gaspar, The AI Daily Brief)</span>. Meanwhile only around <b>a fifth</b> of executive training still changes behaviour on the job a year later <span class="rsrc">(transfer-of-training research; Saks, 2006)</span> — which is why a head full of concepts never moves an organisation, and why this programme is <em>built</em>, not lectured.</p>
+    </div>
+    <div class="quiz-punch">The AI gap in your organisation is a <span class="serif">leadership</span> gap. That's the gap we close.</div>
+  </div>
+</section>
+
+<!-- B · WHAT MOST PROGRAMMES MISS -->
+<section id="method">
+  <div class="wrap">
+    <div class="shead reveal-on">
+      <div class="eyebrow">Why most programmes fail your leaders</div>
+      <h2>Knowing <em>about</em> AI isn't knowing how to <em>lead</em> AI.</h2>
+    </div>
+    <div class="grid4">
+      <div class="gcard reveal-on"><div class="k">01</div><h3>We give you the five hours</h3><p>Every other programme assumes leaders have spare time to learn. This one hands 5–10 hours a week back in week one — then puts them to work.</p></div>
+      <div class="gcard reveal-on"><div class="k">02</div><h3>Carpentry, not calculus</h3><p>Leaders build with AI in their real work — they don't sit through slides explaining it. Judgement comes from contact, not theory.</p></div>
+      <div class="gcard reveal-on"><div class="k">03</div><h3>Practice, not theory</h3><p>Reps, not readings. You cannot lead what you have never touched. Every session ends in something built.</p></div>
+      <div class="gcard reveal-on"><div class="k">04</div><h3>Systems, not prompt hacks</h3><p>Leaders leave with a working AI system — a chief of staff, a knowledge engine, an agent team — not ten clever prompts that age in a week.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- C · WHAT THIS PROGRAMME OFFERS -->
+<section class="offer" id="offer">
+  <div class="wrap">
+    <div class="shead reveal-on">
+      <div class="eyebrow">What you get</div>
+      <h2>A leadership programme that pays for itself in week one.</h2>
+    </div>
+    <div class="get-grid reveal-on">
+      <div class="get"><div class="get-h"><span class="gk">✦</span>Your AI Chief of Staff</div><p>Build a working personal AI system and second brain — and recover 5–10 hours a week.</p></div>
+      <div class="get"><div class="get-h"><span class="gk">✦</span>A real diagnostic</div><p>Your leadership's AI readiness across seven dimensions, measured again at the end — so growth is provable.</p></div>
+      <div class="get"><div class="get-h"><span class="gk">✦</span>Three live Build Labs</div><p>Sleeves-up: personal AI, knowledge &amp; memory, and multi-agent orchestration.</p></div>
+      <div class="get"><div class="get-h"><span class="gk">✦</span>Nine sharp modules</div><p>Leading emergent change, AI strategy without the hype, governance, and proving value.</p></div>
+      <div class="get"><div class="get-h"><span class="gk">✦</span>Frontier-current</div><p>Built from daily practice — not a course recorded eighteen months ago.</p></div>
+      <div class="get"><div class="get-h"><span class="gk">✦</span>35 years of pedigree</div><p>Deep change-leadership behind every single session.</p></div>
+      <div class="get"><div class="get-h"><span class="gk">✦</span>Built for the time-poor</div><p>Productivity first, theory second. We hand the hours back, then put them to work.</p></div>
+      <div class="get"><div class="get-h"><span class="gk">✦</span>A measurable Delta</div><p>Where your leaders were, where they are now — in their own words and numbers.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- D · KEY CONCEPTS -->
+<section id="concepts">
+  <div class="wrap">
+    <div class="shead reveal-on">
+      <div class="eyebrow">Key concepts covered</div>
+      <h2>Ideas you won't find on a business-school slide.</h2>
+    </div>
+    <div class="chips reveal-on">
+      <span class="chip">The no-moat thesis</span>
+      <span class="chip">Build, test, kill</span>
+      <span class="chip">The three-body problem</span>
+      <span class="chip">Carpentry not calculus</span>
+      <span class="chip">The RIST Trust Framework™</span>
+      <span class="chip">Emergent vs. planned change</span>
+      <span class="chip">Why pilots don't scale</span>
+      <span class="chip">Decision-making under uncertainty — the poker lens</span>
+      <span class="chip">Ethical stewardship as phronesis</span>
+      <span class="chip">The Immersion Condition</span>
+      <span class="chip">Data as moat</span>
+      <span class="chip">Multi-agent orchestration</span>
+    </div>
+  </div>
+</section>
+
+<!-- E · COURSE STRUCTURE (tabs) -->
+<section class="offer" id="program" style="background:var(--paper2)">
+  <div class="wrap">
+    <div class="shead reveal-on">
+      <div class="eyebrow">How it runs</div>
+      <h2>Three ways in. One build-first spine.</h2>
+    </div>
+    <div class="tabs reveal-on">
+      <div class="tab active" data-tab="0">The Flagship</div>
+      <div class="tab" data-tab="1">The AI Build Day</div>
+      <div class="tab" data-tab="2">1:1 Coaching</div>
+    </div>
+
+    <div class="panel active" data-panel="0">
+      <div class="struct-card">
+        <h3>The Flagship Programme</h3>
+        <div class="struct-meta"><span>3 Build Labs</span><span>9 Modules</span><span>6–8 weeks · hybrid</span><span>15–25 leaders</span></div>
+        <p class="muted" style="margin-bottom:20px;max-width:62ch">A build → think → build rhythm. Leaders build the thing first, then learn to lead with it. Click any block.</p>
+        <div class="flow">
+          <div class="node build" data-d="Build Lab 1 — build your personal AI Chief of Staff and second brain. Leave saving hours.">
+            <div class="nt">Build Lab 1</div><div class="nm">AI Chief of Staff</div></div>
+          <div class="node" data-d="Three modules on leading yourself: staying frontier-current, proving value (build-test-kill), and failure modes in AI strategy.">
+            <div class="nt">3 modules</div><div class="nm">Lead Self &amp; Decide</div></div>
+          <div class="node build" data-d="Build Lab 2 — knowledge graphs, RAG and persistent memory. Turn your organisation's knowledge into a queryable system.">
+            <div class="nt">Build Lab 2</div><div class="nm">Knowledge &amp; Memory</div></div>
+          <div class="node" data-d="Three modules on leading the organisation: leading emergent change, why pilots don't scale, and governance.">
+            <div class="nt">3 modules</div><div class="nm">Lead the Organisation</div></div>
+          <div class="node build" data-d="Build Lab 3 — multi-agent orchestration and workflow design. The capstone: delegate real work to a team of agents.">
+            <div class="nt">Build Lab 3</div><div class="nm">Multi-Agent Orchestration</div></div>
+        </div>
+        <div class="flow-note" id="flownote">↑ A diagnostic opens and closes the programme — so growth is measured, not assumed. Three in-person Build Labs; six conceptual modules run online between them. Click a block above, or open the full curriculum below.</div>
+        <button class="btn btn-ghost" id="currToggle" style="margin-top:22px">View the 9-week curriculum ↓</button>
+        <div class="timeline" id="curriculum">
+          <div class="tl-row"><div class="tl-wk">Week<span class="num">1</span></div><div><span class="tl-tag build">Build Lab · live</span><h4>AI Chief of Staff</h4><p>You'll build a working personal AI chief of staff and second brain around your real workflow — and leave saving 5–10 hours a week, a practitioner rather than an observer.</p></div></div>
+          <div class="tl-row"><div class="tl-wk">Week<span class="num">2</span></div><div><span class="tl-tag mod">Module</span><h4>Build a Personal CLO</h4><p>You'll design your own continuous-learning system (a research agent) so you stay frontier-current as the models change weekly — keeping judgement sharp without drowning in noise.</p></div></div>
+          <div class="tl-row"><div class="tl-wk">Week<span class="num">3</span></div><div><span class="tl-tag mod">Module</span><h4>Proving AI Value — Build, Test, Kill</h4><p>You'll learn to run AI as a portfolio of small bets with explicit kill criteria — proving value by experiment, not by forecast or a magic quadrant.</p></div></div>
+          <div class="tl-row"><div class="tl-wk">Week<span class="num">4</span></div><div><span class="tl-tag mod">Module</span><h4>Failure Modes in AI Strategy</h4><p>You'll see why renting the capability everyone can rent buys no moat — and learn where durable advantage actually lives, and how to make buy/build/borrow calls that compound.</p></div></div>
+          <div class="tl-row"><div class="tl-wk">Week<span class="num">5</span></div><div><span class="tl-tag build">Build Lab · live</span><h4>Knowledge &amp; Memory</h4><p>You'll build knowledge graphs, a RAG deployment and persistent memory — turning your organisation's knowledge into a queryable system, and grasping the data that is your real moat.</p></div></div>
+          <div class="tl-row"><div class="tl-wk">Week<span class="num">6</span></div><div><span class="tl-tag mod">Module</span><h4>Leading Emergent Change</h4><p>You'll learn to lead change that has no end-state: probe-sense-respond over plan-execute, and the behavioural science that actually shifts what people do.</p></div></div>
+          <div class="tl-row"><div class="tl-wk">Week<span class="num">7</span></div><div><span class="tl-tag mod">Module</span><h4>Why Pilots Don't Scale</h4><p>You'll learn why most AI pilots die between demo and deployment — and how to diagnose the binding constraint (process, governance, incentives) and design pilots built to scale.</p></div></div>
+          <div class="tl-row"><div class="tl-wk">Week<span class="num">8</span></div><div><span class="tl-tag mod">Module</span><h4>AI Ethics &amp; Governance</h4><p>You'll learn to govern so the organisation goes fast and safely — ethics as practised judgement, not compliance, and a behavioural-governance model that enables speed instead of killing it.</p></div></div>
+          <div class="tl-row"><div class="tl-wk">Week<span class="num">9</span></div><div><span class="tl-tag build">Build Lab · capstone</span><h4>Multi-Agent Orchestration</h4><p>You'll build a multi-agent workflow that does real work — the capstone: orchestrating a team of agents as the Conductor, not the technician.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="1">
+      <div class="struct-card">
+        <h3>The AI Build Day</h3>
+        <div class="struct-meta"><span>1 day</span><span>In person</span><span>Sleeves up</span></div>
+        <p class="muted" style="max-width:60ch">One day, in the room, building. Each leader leaves with a working AI Chief of Staff and second brain — and hours back in their week. The fastest way to turn a sceptical board into practitioners, and the natural front door to the flagship.</p>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="2">
+      <div class="struct-card">
+        <h3>1:1 Coaching with Paul Gibbons</h3>
+        <div class="struct-meta"><span>Private</span><span>Your context</span><span>CAIO-grade</span></div>
+        <p class="muted" style="max-width:60ch">Private advisory for a single leader or a small top team. The frameworks applied directly to your organisation, your blockers, your board — with a 90-day action plan and the option to continue as ongoing or fractional Chief AI Officer support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SELF-ASSESSMENT -->
+<section id="assessment">
+  <div class="wrap">
+    <div class="shead reveal-on">
+      <div class="eyebrow">The self-assessment</div>
+      <h2>Where do you actually stand?</h2>
+      <p class="muted" style="margin-top:14px">Nine questions — three on what you've <em>built</em>, six that test how you <em>think</em>. The obvious answer is often wrong. Answer honestly; most executives miss several. No email required.</p>
+    </div>
+    <div class="sa reveal-on" id="sa">
+      <div class="sa-q" data-q><div class="qq"><b>1 · Personal AI</b> — How much of your own work runs through an AI system you built?</div><div class="sa-opts">
+        <button class="sa-opt" data-score="3">I've built a personal AI system that saves me hours every week — and keep improving it.</button>
+        <button class="sa-opt" data-score="2">I use AI daily for real work, but it's ad hoc, not a system.</button>
+        <button class="sa-opt" data-score="1">I use AI occasionally — mostly search and drafting.</button>
+        <button class="sa-opt" data-score="0">I don't personally use AI for substantive work.</button></div></div>
+
+      <div class="sa-q content" data-q data-correct="2"><div class="qq"><b>2 · Staying current</b> — As the models change weekly, what actually keeps an executive's <em>judgement</em> current?</div><div class="sa-opts">
+        <button class="sa-opt" data-score="0">Following the major labs and the best AI newsletters closely.</button>
+        <button class="sa-opt" data-score="0">Having your team brief you on what matters.</button>
+        <button class="sa-opt" data-score="3">A standing practice of building with the tools yourself, filtered by a research agent.</button>
+        <button class="sa-opt" data-score="0">An annual deep-dive and a good executive course.</button></div>
+        <div class="sa-insight"><b>You can't consume your way to current judgement.</b> Information is necessary but never sufficient — judgement is built by contact (Polanyi's tacit knowledge). A research agent filters the firehose; your own building turns information into judgement.</div></div>
+
+      <div class="sa-q content" data-q data-correct="2"><div class="qq"><b>3 · Proving value</b> — Why is up-front ROI forecasting (the "magic quadrant") the wrong primary lens for AI investment?</div><div class="sa-opts">
+        <button class="sa-opt" data-score="0">Because AI projects are too small to forecast.</button>
+        <button class="sa-opt" data-score="0">Because ROI can't really be measured for AI.</button>
+        <button class="sa-opt" data-score="3">Because AI's value is emergent — found by building, testing and killing — so a forecast prices a capability you haven't built yet.</button>
+        <button class="sa-opt" data-score="0">Because boards don't understand AI ROI.</button></div>
+        <div class="sa-insight"><b>Plan to learn, not to predict.</b> AI value is emergent: you discover it by building, testing and killing — not by ranking guesses in a 2×2. A forecast prices a thing you haven't built; an experiment reveals it.</div></div>
+
+      <div class="sa-q content" data-q data-correct="1"><div class="qq"><b>4 · Strategy &amp; moat</b> — What is the most under-appreciated downside of building your AI strategy on SaaS-AI?</div><div class="sa-opts">
+        <button class="sa-opt" data-score="0">It's more expensive than building in-house.</button>
+        <button class="sa-opt" data-score="3">It builds no proprietary capability or moat — and your data may stay behind the vendor's walled garden.</button>
+        <button class="sa-opt" data-score="0">It is inherently less secure than in-house.</button>
+        <button class="sa-opt" data-score="0">It's harder to integrate with your systems.</button></div>
+        <div class="sa-insight"><b>Convenience today, no moat tomorrow.</b> SaaS-AI's real cost isn't price — you finance the vendor's R&D and build no compounding capability. "No capability-building required" is the appeal <em>and</em> the trap. Security can be an advantage; the moat — and your data — is the risk.</div></div>
+
+      <div class="sa-q" data-q><div class="qq"><b>5 · Data &amp; memory</b> — Could you put your real organisational knowledge behind an AI today?</div><div class="sa-opts">
+        <button class="sa-opt" data-score="3">Yes — retrieval and memory on our own data, with security handled.</button>
+        <button class="sa-opt" data-score="2">Partly — pilots exist, but the data is messy and access is fraught.</button>
+        <button class="sa-opt" data-score="1">No — our data isn't ready, and we know it.</button>
+        <button class="sa-opt" data-score="0">I'm not sure where our data is, or what our AI exposure is.</button></div></div>
+
+      <div class="sa-q content" data-q data-correct="2"><div class="qq"><b>6 · Leading change</b> — Orthodox change management (Kotter, ADKAR, Prosci) fits AI adoption poorly mainly because…</div><div class="sa-opts">
+        <button class="sa-opt" data-score="0">…it's too slow to implement.</button>
+        <button class="sa-opt" data-score="0">…it doesn't include enough communication.</button>
+        <button class="sa-opt" data-score="3">…it assumes a known end-state and a planned path — but AI adoption is continuous and emergent, with no go-live date.</button>
+        <button class="sa-opt" data-score="0">…it isn't sufficiently data-driven.</button></div>
+        <div class="sa-insight"><b>Probe-sense-respond, not plan-and-freeze.</b> Kotter and ADKAR were built for planned, episodic change with a defined end-state — an ERP go-live. AI adoption has no end-state; it's continuous and emergent.</div></div>
+
+      <div class="sa-q content" data-q data-correct="1"><div class="qq"><b>7 · Scaling</b> — A pilot that dazzles in the demo usually fails to scale because…</div><div class="sa-opts">
+        <button class="sa-opt" data-score="0">…the model isn't good enough in production.</button>
+        <button class="sa-opt" data-score="3">…the binding constraint is organisational — process, governance, incentives — not the technology.</button>
+        <button class="sa-opt" data-score="0">…the budget ran out.</button>
+        <button class="sa-opt" data-score="0">…the vendor under-delivered.</button></div>
+        <div class="sa-insight"><b>Fix the constraint, not the model.</b> Pilots die between demo and deployment, and it's almost never the model — it's an approval chain, a turf line, a misaligned incentive (Goldratt; systems thinking).</div></div>
+
+      <div class="sa-q content" data-q data-correct="0"><div class="qq"><b>8 · Ethics &amp; governance</b> — The deepest flaw in running AI ethics as a compliance/committee function is that…</div><div class="sa-opts">
+        <button class="sa-opt" data-score="3">…by the time the committee meets, the decision is already made — ethics must be a live leadership judgement, and good governance enables speed rather than blocking it.</button>
+        <button class="sa-opt" data-score="0">…committees are slow.</button>
+        <button class="sa-opt" data-score="0">…compliance is expensive.</button>
+        <button class="sa-opt" data-score="0">…regulators don't require it yet.</button></div>
+        <div class="sa-insight"><b>Compliance is rear-view-mirror ethics.</b> The committee ratifies decisions already taken. In the AI era ethics is phronesis — practical judgement the leader exercises in real time — and good governance is an accelerator, not a brake.</div></div>
+
+      <div class="sa-q" data-q><div class="qq"><b>9 · Agents</b> — How ready are you to lead agents, not just use chatbots?</div><div class="sa-opts">
+        <button class="sa-opt" data-score="3">I've built or directed multi-agent workflows that do real work.</button>
+        <button class="sa-opt" data-score="2">I understand agents conceptually, but haven't built with them.</button>
+        <button class="sa-opt" data-score="1">I think of AI as a chatbot I ask questions.</button>
+        <button class="sa-opt" data-score="0">Agents aren't on my radar yet.</button></div></div>
+    </div>
+    <div class="sa-progress" id="saProg"><span id="saCount">0</span>/9 answered</div>
+    <div class="sa-result" id="saResult"></div>
+  </div>
+</section>
+
+<!-- F · PRICING -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="shead reveal-on" style="margin:0 auto 48px;text-align:center">
+      <div class="eyebrow">Pricing</div>
+      <h2>Three ways to begin.</h2>
+    </div>
+    <div class="pgrid reveal-on">
+      <div class="pcard">
+        <div class="pt">Taster</div><h3>AI Build Day</h3>
+        <div class="price">Enquire</div>
+        <ul><li>One in-person day</li><li>Build your AI Chief of Staff</li><li>Hours back, same day</li><li>Ideal for an intact team</li></ul>
+        <a href="#enquire" class="btn btn-ghost">Enquire</a>
+      </div>
+      <div class="pcard feat">
+        <div class="badge">Flagship</div>
+        <div class="pt">Cohort</div><h3>The Programme</h3>
+        <div class="price">Enquire</div>
+        <ul><li>3 Build Labs · 9 modules</li><li>6–8 weeks, hybrid</li><li>Diagnostic, before &amp; after</li><li>Live with Paul · 15–25 leaders</li></ul>
+        <a href="#enquire" class="btn btn-p">Enquire</a>
+      </div>
+      <div class="pcard">
+        <div class="pt">Private</div><h3>1:1 Coaching</h3>
+        <div class="price">Enquire</div>
+        <ul><li>Private advisory with Paul</li><li>Applied to your organisation</li><li>90-day action plan</li><li>Fractional CAIO option</li></ul>
+        <a href="#enquire" class="btn btn-ghost">Enquire</a>
+      </div>
+    </div>
+    <p class="pnote">Team, not-for-profit, and sole-practitioner pricing available — <a href="#enquire" style="color:var(--p);font-weight:600">just ask</a>.</p>
+  </div>
+</section>
+
+<!-- PAUL -->
+<section>
+  <div class="wrap">
+    <div class="paul reveal-on">
+      <div class="pic">PG</div>
+      <div>
+        <div class="eyebrow">Built and taught by</div>
+        <h2>Paul Gibbons</h2>
+        <p>Author of eight books on leadership and change. Former leader of a top leadership boutique that competed with Harvard and INSEAD; advisor to HSBC, KPMG, Shell, BP and Microsoft. Professor — and professional poker player. The combination of deep change-leadership pedigree and daily frontier-AI practice exists nowhere else in this market.</p>
+        <button class="btn btn-ghost js-quotes" style="margin-top:24px">Read what CEOs say about Paul's programmes →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSE / ENQUIRE -->
+<section class="close" id="enquire">
+  <div class="wrap">
+    <h2 class="serif">Find out where your leadership actually stands.</h2>
+    <p class="lead" style="color:#cfcadd;max-width:48ch;margin:0 auto 30px">The next public programme begins <strong style="color:#fff">7 September 2026</strong>. Tell us about your team and we'll recommend the right way in — a Build Day, a cohort, or private coaching.</p>
+    <div class="hero-cta">
+      <a href="mailto:williampaulgibbons@gmail.com?subject=Leadership%20Delta%20%E2%80%94%20register%20interest%20(7%20Sept)" class="btn btn-light">Register your interest →</a>
+      <a href="#assessment" class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3)">Take the self-assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTES MODAL -->
+<div class="modal" id="quotes" aria-hidden="true">
+  <div class="modal-bg js-close"></div>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-label="What CEOs say about Paul Gibbons's programmes">
+    <button class="modal-x js-close" aria-label="Close">&times;</button>
+    <div class="modal-in">
+      <div class="eyebrow" style="color:var(--p)">In their words</div>
+      <h2 class="serif" style="font-size:clamp(26px,4vw,38px);margin:10px 0 8px">What CEOs say about Paul's leadership programmes</h2>
+      <p class="muted" style="margin-bottom:30px">From three decades of leadership work with some of the world's largest organisations.</p>
+      <figure class="quote"><blockquote>"Paul didn't tell us what we wanted to hear; he told us what we <em>needed</em> to hear."</blockquote><figcaption>Simon Collins · CEO, KPMG Europe</figcaption></figure>
+      <figure class="quote"><blockquote>"You've changed my life and you've transformed my business."</blockquote><figcaption>John Stewart · CEO, National Australia Bank</figcaption></figure>
+      <figure class="quote"><blockquote>"I've been through a dozen leadership programmes in my career; none achieved what this did in so little time."</blockquote><figcaption>Doug Smith · CEO, Department of Work and Pensions, UK</figcaption></figure>
+      <figure class="quote"><blockquote>"Business school courses left my team with a head full of concepts; this programme gave us actionable strategies and behaviours."</blockquote><figcaption>Stephen Green · Chairman, HSBC Bank</figcaption></figure>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>© 2026 Paul Gibbons Advisory · Leadership Delta™ · Adaptive Adoption™</div>
+    <div><a href="https://paulgibbonsadvisory.com">paulgibbonsadvisory.com</a></div>
+  </div>
+</footer>
+
+<script>
+// nav shadow
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10));
+
+// reveal on scroll
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal-on').forEach(el=>io.observe(el));
+
+// quiz — hold all reveals until 3 answered, then show one result
+const qs=[...document.querySelectorAll('.q')];
+let answered=0;
+qs.forEach(q=>{
+  const opts=[...q.querySelectorAll('.opt')];
+  let done=false;
+  opts.forEach((o,i)=>o.addEventListener('click',()=>{
+    if(done)return; done=true; answered++;
+    opts.forEach(x=>x.classList.remove('selected'));
+    o.classList.add('selected'); q.dataset.choice=i;
+    if(answered===qs.length) finishQuiz();
+  }));
+});
+function finishQuiz(){
+  qs.forEach(q=>{
+    const ans=+q.dataset.answer, ch=+q.dataset.choice, opts=[...q.querySelectorAll('.opt')];
+    opts.forEach((o,i)=>{o.classList.remove('selected'); if(i===ans)o.classList.add('right'); else if(i===ch)o.classList.add('wrong');});
+  });
+  const r=document.getElementById('quizResult');
+  r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// tabs
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  document.querySelector('.panel[data-panel="'+t.dataset.tab+'"]').classList.add('active');
+}));
+
+// flow nodes
+const fn=document.getElementById('flownote'), fnDefault=fn.textContent;
+document.querySelectorAll('.node').forEach(n=>{
+  n.addEventListener('click',()=>{fn.textContent=n.dataset.d;});
+});
+
+// curriculum timeline toggle
+const ct=document.getElementById('currToggle'), cur=document.getElementById('curriculum');
+if(ct&&cur){ct.addEventListener('click',()=>{const open=cur.classList.toggle('open');ct.textContent=open?'Hide the 9-week curriculum ↑':'View the 9-week curriculum ↓';});}
+
+// self-assessment scoring
+const saQs=[...document.querySelectorAll('#sa [data-q]')];
+const saScores={}; let saDone=0, saLocked=false;
+saQs.forEach((q,qi)=>{
+  const opts=[...q.querySelectorAll('.sa-opt')];
+  opts.forEach((o,oi)=>o.addEventListener('click',()=>{
+    if(saLocked)return;
+    if(!(qi in saScores))saDone++;
+    saScores[qi]=+o.dataset.score; q.dataset.choice=oi;
+    opts.forEach(x=>x.classList.remove('sel')); o.classList.add('sel');
+    const c=document.getElementById('saCount'); if(c)c.textContent=saDone;
+    if(saDone===saQs.length) saResult();
+  }));
+});
+function saResult(){
+  saLocked=true;
+  const total=Object.values(saScores).reduce((a,b)=>a+b,0);
+  saQs.forEach(q=>{
+    if(!q.classList.contains('content'))return;
+    const correct=+q.dataset.correct, choice=+q.dataset.choice, opts=[...q.querySelectorAll('.sa-opt')];
+    opts.forEach((o,i)=>{o.classList.remove('sel'); if(i===correct)o.classList.add('right'); else if(i===choice)o.classList.add('wrong');});
+    const ins=q.querySelector('.sa-insight'); if(ins)ins.classList.add('show');
+  });
+  let band,msg;
+  if(total>=22){band='Frontier';msg="You're already leading from the front. The programme sharpens an edge you've earned — and the Build Labs will still surprise you.";}
+  else if(total>=14){band='Practising';msg="Real momentum, real gaps. You're using AI; you're not yet leading it systematically. This is exactly who the programme is built for.";}
+  else if(total>=7){band='Emerging';msg="You can see the shift but aren't operating in it yet. The fastest way to close the gap is a Build Day, then the cohort.";}
+  else {band='Exposed';msg="The gap between where you are and where AI needs you is wide — which makes it the most valuable place to start. Begin with the diagnostic and a Build Day.";}
+  const el=document.getElementById('saResult');
+  el.innerHTML='<div class="s
