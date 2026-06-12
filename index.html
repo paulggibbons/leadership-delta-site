@@ -592,8 +592,13 @@ const nav=document.getElementById('nav');
 addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10));
 
 // reveal on scroll
-const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
-document.querySelectorAll('.reveal-on').forEach(el=>io.observe(el));
+const revEls=document.querySelectorAll('.reveal-on');
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0, rootMargin:'0px 0px -40px 0px'});
+  revEls.forEach(el=>io.observe(el));
+  // failsafe: anything still hidden after 2.5s gets revealed
+  setTimeout(()=>revEls.forEach(el=>el.classList.add('in')),2500);
+}else{ revEls.forEach(el=>el.classList.add('in')); }
 
 // quiz — hold all reveals until 3 answered, then show one result
 const qs=[...document.querySelectorAll('.q')];
@@ -665,4 +670,17 @@ function saResult(){
   else if(total>=7){band='Emerging';msg="You can see the shift but aren't operating in it yet. The fastest way to close the gap is a Build Day, then the cohort.";}
   else {band='Exposed';msg="The gap between where you are and where AI needs you is wide — which makes it the most valuable place to start. Begin with the diagnostic and a Build Day.";}
   const el=document.getElementById('saResult');
-  el.innerHTML='<div class="s
+  el.innerHTML='<div class="sa-band">'+band+'</div><div class="sa-score">Your Delta score · '+total+' / 27</div><p>'+msg+'</p><a href="#enquire" class="btn btn-light">Find the right way in →</a>';
+  el.classList.add('show'); el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// quotes modal
+const modal=document.getElementById('quotes');
+const openM=()=>{modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';};
+const closeM=()=>{modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';};
+document.querySelectorAll('.js-quotes').forEach(b=>b.addEventListener('click',openM));
+document.querySelectorAll('.js-close').forEach(b=>b.addEventListener('click',closeM));
+addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+</script>
+</body>
+</html>
