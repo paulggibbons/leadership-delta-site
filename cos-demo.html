@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AI Chief of Staff · Morning Briefing — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1A2B; --ink2:#33415a; --paper:#FBF7EF; --paper2:#F2EBDD; --card:#ffffff;
+    --accent:#D4541A; --accent2:#F0A000; --rule:#1f2a3a; --muted:#6b6b6b; --ok:#2f7d3a;
+    --line:#e4dccb;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.5;
+       background-image:radial-gradient(rgba(14,26,43,.045) 1px,transparent 1px);background-size:4px 4px;}
+  .serif{font-family:'Source Serif 4','Iowan Old Style',Georgia,serif;}
+  .wrap{max-width:1120px;margin:0 auto;padding:30px 34px 56px;}
+  .muted{color:var(--muted);}
+  .num{font-variant-numeric:tabular-nums;}
+  h1,h2,h3,h4{font-family:'Source Serif 4',Georgia,serif;letter-spacing:-.01em;line-height:1.08;}
+
+  /* header */
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;border-bottom:2px solid var(--rule);padding-bottom:20px;}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;}
+  h1.title{font-size:54px;font-weight:700;}
+  .sub{font-size:15px;color:var(--ink2);max-width:54ch;margin-top:10px;}
+  .top-right{text-align:right;flex:none;padding-top:6px;}
+  .date{font-size:14px;font-weight:600;}
+  .chip{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.04em;border:1px solid var(--line);border-radius:100px;padding:5px 12px;color:var(--ink2);background:#fff;margin-top:10px;}
+  .expand-all{display:inline-flex;align-items:center;gap:7px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.04em;border:1px solid var(--rule);border-radius:100px;padding:6px 13px;color:var(--ink);background:#fff;cursor:pointer;margin-top:10px;margin-left:8px;transition:.2s;}
+  .expand-all:hover{background:var(--ink);color:#fff;}
+
+  /* context */
+  .context{background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:24px 26px;margin-top:26px;display:grid;grid-template-columns:1.5fr 1fr;gap:28px;}
+  .context .ko{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .context .lede{font-family:'Source Serif 4',Georgia,serif;font-size:20px;line-height:1.4;border-left:4px solid var(--accent);padding-left:18px;}
+  .micro{display:grid;gap:12px;}
+  .micro .m{border-top:1px solid var(--line);padding-top:10px;}
+  .micro .m:first-child{border-top:none;padding-top:0;}
+  .micro .ml{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .micro .mt{font-family:'Source Serif 4',Georgia,serif;font-size:16px;font-weight:600;margin-top:2px;}
+  .micro .md{font-size:12.5px;color:var(--ink2);margin-top:2px;}
+
+  /* counters */
+  .counters{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;}
+  .counter{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;}
+  .counter .cl{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+  .counter .cn{font-family:'Source Serif 4',Georgia,serif;font-size:40px;font-weight:700;line-height:1;margin-top:4px;}
+  .counter .cd{font-size:12px;color:var(--ink2);margin-top:6px;}
+
+  /* layout */
+  .grid{display:grid;grid-template-columns:1.55fr 1fr;gap:28px;margin-top:34px;}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}.context{grid-template-columns:1fr}.counters{grid-template-columns:1fr}}
+  section.block{margin-bottom:30px;}
+  .shead{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:14px;}
+  .shead h2{font-size:24px;font-weight:700;}
+  .shead .meta{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+
+  /* expandable card */
+  .exp{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px;position:relative;cursor:pointer;transition:.18s;}
+  .exp:hover{border-color:var(--line2,#d8cbb0);box-shadow:0 8px 22px -16px rgba(14,26,43,.45);}
+  .exp .row{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;}
+  .exp .tag-time{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .exp .tag-time.urgent{color:var(--accent);}
+  .exp h3{font-size:17px;font-weight:600;margin:4px 0 5px;}
+  .exp p{font-size:13.5px;color:var(--ink2);}
+  .pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px;}
+  .pill{font-size:10.5px;letter-spacing:.04em;border:1px solid var(--line);border-radius:100px;padding:3px 10px;color:var(--ink2);background:var(--paper);}
+  .act{flex:none;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:8px;padding:7px 13px;border:1px solid var(--rule);background:#fff;color:var(--ink);height:fit-content;}
+  .act.reply{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .act.ready{background:#e6f0e8;color:var(--ok);border-color:#bcd9c2;}
+  .act.prep{background:var(--paper2);}
+  .toggle{position:absolute;top:14px;right:16px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line);color:var(--muted);display:grid;place-items:center;font-size:15px;line-height:1;background:#fff;transition:.2s;}
+  .exp:hover .toggle{border-color:var(--accent);color:var(--accent);}
+  .exp .toggle::after{content:"+";}
+  .exp.open .toggle{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .exp.open .toggle::after{content:"–";}
+  .more{max-height:0;overflow:hidden;opacity:0;transition:max-height .4s cubic-bezier(.2,.7,.2,1),opacity .3s,margin .3s,padding .3s;}
+  .exp.open .more{max-height:340px;opacity:1;margin-top:13px;padding-top:13px;border-top:1px dashed var(--line);}
+  .more .ml2{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+  .more p{font-size:13px;color:var(--ink2);}
+
+  /* calendar variant uses same .exp; tweak inner */
+  .exp.c{display:block;}
+  .exp.c .chead{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:start;}
+  .exp.c .t{font-family:'Source Serif 4',Georgia,serif;font-weight:700;font-size:15px;}
+  .exp.c .t small{display:block;font-family:'Inter',sans-serif;font-weight:500;font-size:10px;color:var(--muted);letter-spacing:.06em;}
+
+  /* sidebar panels */
+  .side .exp{padding:14px 16px;margin-bottom:0;border:none;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;}
+  .side .exp:last-child{border-bottom:none;}
+  .side .exp:hover{box-shadow:none;background:#fffdf9;}
+  .news .src{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);}
+  .news h4{font-size:15px;font-weight:600;margin:3px 22px 3px 0;}
+  .news p{font-size:12.5px;color:var(--ink2);}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:24px;}
+  .panel.learn{background:linear-gradient(180deg,#fff6ef,#fff);border-color:#f0d6c2;}
+  .panel-h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:6px;}
+  .panel-h h2{font-size:21px;font-weight:700;}
+  .panel-h .meta{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+  .learn .exp .lk{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);}
+  .learn .exp .lt{font-family:'Source Serif 4',Georgia,serif;font-size:15px;font-weight:600;margin-top:2px;line-height:1.3;margin-right:22px;}
+  .learn .exp .ld{font-size:12.5px;color:var(--ink2);margin-top:2px;}
+  .streak{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--ok);background:#e9f3eb;border:1px solid #bcd9c2;border-radius:100px;padding:4px 11px;margin-top:12px;}
+  .logic .lg{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:9px 0;border-top:1px solid var(--line);}
+  .logic .lg:first-of-type{border-top:none;}
+  .logic .lg b{font-family:'Source Serif 4',Georgia,serif;font-size:14.5px;}
+  .logic .lg p{font-size:12px;color:var(--ink2);margin-top:2px;}
+  .logic .badge{flex:none;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border-radius:7px;padding:3px 9px;background:var(--paper2);border:1px solid var(--line);color:var(--ink2);}
+
+  footer{border-top:2px solid var(--rule);margin-top:18px;padding-top:16px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;}
+  footer .demo{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);}
+  footer .promo{font-family:'Source Serif 4',Georgia,serif;font-style:italic;font-size:14px;color:var(--ink2);}
+
+  /* PRINT: expand everything, hide toggles — PDF is complete */
+  @media print{
+    @page{margin:13mm;}
+    body{background:var(--paper);}
+    .wrap{max-width:100%;padding:0;}
+    .exp{cursor:default;box-shadow:none !important;}
+    .toggle,.expand-all{display:none !important;}
+    .more{max-height:none !important;opacity:1 !important;margin-top:12px !important;padding-top:12px !important;border-top:1px dashed var(--line) !important;overflow:visible !important;}
+    section.block,.panel,.exp{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="top">
+    <div>
+      <div class="eyebrow">AI Chief of Staff · Morning Briefing — Demo</div>
+      <h1 class="title">Morning briefing</h1>
+      <p class="sub">One screen for triaged inboxes, today's calendar, the news worth knowing, and what to keep learning — before the day gets busy. Built like a real operating surface, not a spreadsheet wearing a blazer.</p>
+    </div>
+    <div class="top-right">
+      <div class="date">Thursday, 25 June 2026</div>
+      <div><span class="chip">Prepared 06:40 · density: roomy</span></div>
+      <button class="expand-all" id="expandAll">⤢ Expand all</button>
+    </div>
+  </div>
+
+  <!-- CONTEXT FOR YOUR DAY -->
+  <div class="context">
+    <div>
+      <div class="ko">Context for your day</div>
+      <p class="lede">The inbox is mostly under control. The calendar needs prep more than rescheduling. And today's signal is really about where AI is <em>actually</em> being used — not where it demos well. One thing can still change how the morning feels: the board memo before the 11:00 call.</p>
+    </div>
+    <div class="micro">
+      <div class="m"><div class="ml">Top priority</div><div class="mt">Tighten the board memo before the call</div><div class="md">The one item that can still change the shape of the day.</div></div>
+      <div class="m"><div class="ml">Best leverage</div><div class="mt">Delegate the vendor comparison</div><div class="md">A clean handoff that buys back real judgement time.</div></div>
+      <div class="m"><div class="ml">Watch item</div><div class="mt">AI pilot: demo vs. adoption</div><div class="md">Separate polished demos from real usage. That gap is the story.</div></div>
+    </div>
+  </div>
+
+  <!-- COUNTERS -->
+  <div class="counters">
+    <div class="counter"><div class="cl">Inbox triaged</div><div class="cn num">32</div><div class="cd">24 archived · 5 delegated · 3 waiting on you.</div></div>
+    <div class="counter"><div class="cl">Today's meetings</div><div class="cn num">5</div><div class="cd">3 need prep. 1 is the real risk.</div></div>
+    <div class="counter"><div class="cl">News signals</div><div class="cn num">7</div><div class="cd">Mostly AI, mostly useful, mostly not noise.</div></div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="grid">
+
+    <!-- LEFT -->
+    <div class="main">
+
+      <section class="block">
+        <div class="shead"><h2>Inbox triage</h2><span class="meta">After the first pass · click to expand</span></div>
+
+        <div class="exp"><span class="toggle"></span><div class="row"><div style="flex:1">
+          <div class="tag-time urgent">Urgent · reply before 9</div>
+          <h3>Investor update — the board memo needs a tighter version</h3>
+          <p>They want the same update, but with the risk section shortened and the ask made explicit. Best move is a fast redraft and a yes/no on the follow-up call.</p>
+          <div class="pills"><span class="pill">High stakes</span><span class="pill">Needs redline</span></div>
+        </div><button class="act reply">Reply</button></div>
+        <div class="more"><div class="ml2">Draft ready to review</div><p>Opens with the one number that matters, cuts the risk section to three lines, and ends with a single explicit ask plus a yes/no on Thursday's call. ~90 seconds to read and send. Redline of the original attached.</p></div></div>
+
+        <div class="exp"><span class="toggle"></span><div class="row"><div style="flex:1">
+          <div class="tag-time">09:20 · delegate</div>
+          <h3>Ops — vendor comparison for the shared inbox stack</h3>
+          <p>Strong fit for delegation. The short list is already there. Ask for a one-page recommendation with cost, coverage, and migration friction.</p>
+          <div class="pills"><span class="pill">Delegate</span><span class="pill">Decision doc</span></div>
+        </div><button class="act">Delegate</button></div>
+        <div class="more"><div class="ml2">Hand-off note drafted</div><p>To Sam: "One page — cost, coverage, migration friction, and a single recommendation. Three shortlisted vendors attached. Back by Wednesday." Frees ~2 hours of your week and gives them a real decision to own.</p></div></div>
+
+        <div class="exp"><span class="toggle"></span><div class="row"><div style="flex:1">
+          <div class="tag-time">10:05 · send</div>
+          <h3>Founder note — calendar reshuffle for Friday</h3>
+          <p>Safe to send once the prep notes are attached. Move the 2:30 slot, keep the 4:00, and make the reason simple.</p>
+          <div class="pills"><span class="pill">Ready</span><span class="pill">Low friction</span></div>
+        </div><button class="act">Send</button></div>
+        <div class="more"><div class="ml2">Reply drafted</div><p>"Moving 2:30 → keeping 4:00. Reason: the QA report lands at 1, so we'll have the answer we need. Same agenda." Prep notes attached. One click to send.</p></div></div>
+
+        <div class="exp"><span class="toggle"></span><div class="row"><div style="flex:1">
+          <div class="tag-time">FYI · archive</div>
+          <h3>Newsletter pile — skimmed, summarised, parked</h3>
+          <p>Most of it is noise. Kept the four with actual signal: model shipping, agent tooling, evaluation, and one startup note worth watching.</p>
+          <div class="pills"><span class="pill">Archived</span><span class="pill">Digest saved</span></div>
+        </div><button class="act">Done</button></div>
+        <div class="more"><div class="ml2">What was kept</div><p>Saved to your reading list: one on model shipping, one on agent tooling, one on evaluation, and one startup to watch. The other 14 archived. Nothing here needs you before noon.</p></div></div>
+      </section>
+
+      <section class="block">
+        <div class="shead"><h2>Calendar with prep notes</h2><span class="meta">Prep attached · click to expand</span></div>
+
+        <div class="exp c"><span class="toggle"></span><div class="chead"><div class="t">8:30<small>30 min</small></div><div><h3>Daily exec standup</h3><p>Keep it tight. The only real decision is whether the launch timeline changes after the QA report lands.</p><div class="pills"><span class="pill">Prep: latest blockers</span><span class="pill">Mention launch risk</span></div></div><button class="act prep">Prep</button></div>
+          <div class="more"><div class="ml2">The one thing</div><p>Blockers: QA sign-off pending; design review slipped a day. The decision to force: <b>does the launch date move — yes or no?</b> Don't leave the room without it.</p></div></div>
+
+        <div class="exp c"><span class="toggle"></span><div class="chead"><div class="t">10:00<small>45 min</small></div><div><h3>Product review — AI workflow pilot</h3><p>They want the delta between "cool demo" and "actual adoption." Bring the usage numbers and one sharp question.</p><div class="pills"><span class="pill">Prep: adoption</span><span class="pill">One hard question</span></div></div><button class="act prep">Prep</button></div>
+          <div class="more"><div class="ml2">Bring this</div><p>Weekly-active vs. licensed seats, and the drop-off after week one. The one question: <i>"Where does a human still have to step in — and why?"</i> That answer is the real adoption signal, not the demo.</p></div></div>
+
+        <div class="exp c"><span class="toggle"></span><div class="chead"><div class="t">1:15<small>60 min</small></div><div><h3>Partner sync — distribution &amp; content</h3><p>The room wants clarity on audience overlap and what gets cross-posted. Use the one-slide version.</p><div class="pills"><span class="pill">Prep: audience overlap</span><span class="pill">One-slide summary</span></div></div><button class="act ready">Ready</button></div>
+          <div class="more"><div class="ml2">Position</div><p>Audience overlap is ~40%. Cross-post the two evergreen pieces; keep the launch content native to each channel. Lead with the single slide — the full narrative will lose this room.</p></div></div>
+
+        <div class="exp c"><span class="toggle"></span><div class="chead"><div class="t">3:00<small>30 min</small></div><div><h3>1:1 with the CEO</h3><p>Leading indicator: hiring momentum. Secondary: which AI projects deserve more surface area this quarter.</p><div class="pills"><span class="pill">Prep: decision points</span><span class="pill">Keep it crisp</span></div></div><button class="act prep">Prep</button></div>
+          <div class="more"><div class="ml2">Make the case</div><p>Open with hiring momentum (up). Then argue for giving the AI workflow pilot more surface area next quarter — one slide, one number, one ask. Leave with a decision, not a "let's discuss."</p></div></div>
+      </section>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="side">
+
+      <!-- PERSONAL LEARNING -->
+      <div class="panel learn">
+        <div class="panel-h"><h2>Personal learning</h2><span class="meta">15 min today</span></div>
+        <div class="exp"><span class="toggle"></span><div class="lk">Read one thing</div><div class="lt">"What breaks in production" &gt; "what AI can do"</div><div class="ld">The frontier conversation has moved from capability to reliability.</div>
+          <div class="more"><div class="ml2">Specifically</div><p>The 12-minute Latent Space segment on production reliability. Listen on the commute; note one thing that would break in <i>your</i> own stack.</p></div></div>
+        <div class="exp"><span class="toggle"></span><div class="lk">Internalise one concept</div><div class="lt">Context engineering beats prompt tricks</div><div class="ld">The model needs everything in your head — not a clever one-liner.</div>
+          <div class="more"><div class="ml2">Try it once today</div><p>Instead of a clever prompt, paste the full context — the goal, the constraints, the prior decisions — and watch the quality jump. That's the whole skill.</p></div></div>
+        <div class="exp"><span class="toggle"></span><div class="lk">Do one rep</div><div class="lt">Point a small retrieval at your own notes</div><div class="ld">Judgement is built by contact, not consumption.</div>
+          <div class="more"><div class="ml2">Ten minutes</div><p>Drop five of your own notes into a tool and ask it to find the contradiction between them. Hands-on beats an hour of reading.</p></div></div>
+        <span class="streak">● Frontier-current streak · 12 days</span>
+      </div>
+
+      <!-- HIGH-SIGNAL NEWS -->
+      <div class="panel news">
+        <div class="panel-h"><h2>High-signal news</h2><span class="meta">7 kept · 4 worth it</span></div>
+        <div class="exp"><span class="toggle"></span><div class="src">The Batch · Newsletter</div><h4>Signal over excitement</h4><p>Anchors the week around deployment and evaluation — what actually changed, not what's hyped.</p>
+          <div class="more"><div class="ml2">Forward-ready line</div><p>"The useful AI newsletters have stopped reporting capability and started reporting deployment. This one's the clearest."</p></div></div>
+        <div class="exp"><span class="toggle"></span><div class="src">Latent Space · Podcast</div><h4>The builder's view of what's shipping</h4><p>Agents, tooling, and the difference between a demo and a product.</p>
+          <div class="more"><div class="ml2">Why it matters to us</div><p>The "demo vs. product" framing is exactly the gap in our pilot. One episode, one quotable idea — worth forwarding to anyone buying AI tools.</p></div></div>
+        <div class="exp"><span class="toggle"></span><div class="src">Hard Fork · Podcast</div><h4>Consumer AI &amp; platform politics</h4><p>Sharp on the product layer and where advantage now lives.</p>
+          <div class="more"><div class="ml2">Keep for the board</div><p>"The model is becoming a commodity; the product layer — UX and distribution — is where the advantage now lives."</p></div></div>
+        <div class="exp"><span class="toggle"></span><div class="src">Import AI · Newsletter</div><h4>Evaluation is finally the story</h4><p>A sober read on what AI can and can't do.</p>
+          <div class="more"><div class="ml2">Use when</div><p>Leadership wants risk talk without theatre: the field is moving from benchmarks to real-world failure modes. Sober, citable, short.</p></div></div>
+      </div>
+
+      <!-- BRIEFING LOGIC -->
+      <div class="panel logic">
+        <div class="panel-h"><h2>Briefing logic</h2></div>
+        <div class="lg"><div><b>Action</b><p>Anything that blocks someone else or changes a decision.</p></div><span class="badge">Reply / delegate</span></div>
+        <div class="lg"><div><b>Prep</b><p>The one note that keeps you from sounding underprepared.</p></div><span class="badge">Before meeting</span></div>
+        <div class="lg"><div><b>Signal</b><p>Keep only the items that inform a decision or a story.</p></div><span class="badge">News / learning</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="demo">Demo · sample content, designed to look like a real chief-of-staff briefing surface.</div>
+    <div class="promo">This is the AI Chief of Staff you build on Day One of the Leadership Delta programme.</div>
+  </footer>
+
+</div>
+
+<script>
+  // click-to-expand
+  document.querySelectorAll('.exp').forEach(function(el){
+    el.addEventListener('click', function(e){
+      if(e.target.closest('.act')) return; // ignore the demo action buttons
+      el.classList.toggle('open');
+      syncExpandAll();
+    });
+  });
+  // expand all / collapse all
+  var btn = document.getElementById('expandAll');
+  function syncExpandAll(){
+    var all = document.querySelectorAll('.exp');
+    var openCount = document.querySelectorAll('.exp.open').length;
+    btn.textContent = (openCount === all.length) ? '⤡ Collapse all' : '⤢ Expand all';
+  }
+  btn.addEventListener('click', function(){
+    var all = [].slice.call(document.querySelectorAll('.exp'));
+    var shouldOpen = document.querySelectorAll('.exp.open').length < all.length;
+    all.forEach(function(el){ el.classList.toggle('open', shouldOpen); });
+    syncExpandAll();
+  });
+  // open everything before printing so the PDF is complete
+  window.addEventListener('beforeprint', function(){
+    document.querySelectorAll('.exp').forEach(function(el){ el.classList.add('open'); });
+  });
+</script>
+</body>
+</html>
